@@ -112,6 +112,7 @@ public class MyDoublyLinkedList2 extends AbstractSequentialList<String> {
             Node newNode = new Node(s, current, current.next);
             current.next = newNode;
             newNode.next.prev = newNode;
+            current = newNode;
             ++size;
         }
     }
