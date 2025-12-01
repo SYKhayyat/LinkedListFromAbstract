@@ -40,6 +40,7 @@ public class MyDoublyLinkedList2 extends AbstractSequentialList<String> {
         int indexToReturn = -1;
         Node current;
         int count = 0;
+        boolean flag = false;
 
         public MyLIterator(int i){
             if (i > size() || i < 0){
@@ -63,6 +64,7 @@ public class MyDoublyLinkedList2 extends AbstractSequentialList<String> {
             if (! hasNext()) {
                 throw new NoSuchElementException();
             }
+            flag = true;
             indexToReturn++;
             toRemove = current.next;
             current = current.next;
@@ -79,6 +81,7 @@ public class MyDoublyLinkedList2 extends AbstractSequentialList<String> {
             if (! hasPrevious()) {
                 throw new NoSuchElementException();
             }
+            flag = true;
             indexToReturn--;
             toRemove = current;
             current = current.prev;
@@ -97,18 +100,23 @@ public class MyDoublyLinkedList2 extends AbstractSequentialList<String> {
 
         @Override
         public void remove() {
+            if (flag){
             toRemove.prev.next = toRemove.next;
             toRemove.next.prev = toRemove.prev;
-            --size;
+            --size;}
+            flag = false;
         }
 
         @Override
         public void set(String s) {
-            toRemove.data = s;
+            if (flag) {
+                toRemove.data = s;
+            }
         }
 
         @Override
         public void add(String s) {
+            flag = false;
             Node newNode = new Node(s, current, current.next);
             current.next = newNode;
             newNode.next.prev = newNode;
